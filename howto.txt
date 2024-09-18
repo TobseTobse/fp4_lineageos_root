@@ -1,0 +1,128 @@
+Guide to degoogle and root an unboxed FP4 using LineageOS 21
+
+# BEAR IN MIND:
+# UNLOCKING THE BOOTLOADER WILL ERASE ALL DATA, SO BACKUP BEFORE YOU PROCEED!!
+# RELOCKING THE BOOTLOADER FOR SECURITY REASONS IS NOT POSSIBLE WITH LINEAGEOS ON FAIRPHONE
+
+# The following steps result from the manual at https://wiki.lineageos.org/devices/FP4/i
+
+On desktop: put on some relaxing music, as you will definitely need that during this process
+On desktop: download the latest version of Android Platform tools for your operating system:
+            - Mac https://dl.google.com/android/repository/platform-tools-latest-darwin.zip
+            - Linux https://dl.google.com/android/repository/platform-tools-latest-linux.zip
+            - Windows https://dl.google.com/android/repository/platform-tools-latest-windows.zip
+On desktop: install Android Platform tools, open a command prompt and cd to the installation directory
+On phone: Go to Settings > About phone
+On phone: ensure that Android 13 is running. If it is a lower Android version (most likely it is Android 12):
+          - connect internet
+          - Go to Settings > System > System update
+          - compare the offered version with https://support.fairphone.com/hc/en-us/articles/4405858220945-Fairphone-4-OS-Release-Notes
+          - if the offered version is Android 13 (name contains C.0121) then go ahead and update, otherwise your journey ends here!
+On phone: when Android 13 is ready, again go to Settings > About phone
+On phone: ensure you are on Android 13 now
+On phone: in the same screen: tap 7x on the menu item "Build number" to activate Developer Options
+On phone: plug in ORIGINAL(!!!!!!) USB cable
+On phone: go to Settings > Connected devices > USB > set USB to be used for File Transfer
+On phone: go to Settings > System > Developer Options
+On phone: open phone application and dial *#06#
+On phone: get bootloader unlock code from https://www.fairphone.com/en/bootloader-unlocking-code-for-fairphone (most likely an 8 digits code)
+On phone: enable OEM unlocking (use your personal unlock code provided in previous step)
+On phone: enable USB debugging
+On phone: restart via the notification bar icon in the bottom right corner: (')
+On phone: when the phone is rebooted, go to Settings > System and ensure that Developer options are still active
+          - reenable Developer options in case this should be necassary
+On phone: power off via notfication bar bottom right corner icon: (')
+On phone: wait 20 seconds after the phone is off to be sure it's really off ;-)
+On phone: hold the power and volume down keys together and immediately let both go when the Fairphone logo is appearing
+On phone: if you see a menu and are not in Fastboot mode yet:
+          - use the volume keys and the power key to navigate to and enter into fastboot mode
+On desktop: type "fastboot devices" (needs sudo on *ux, should give an ID with most likely 8 hexadecimal characters)
+On desktop: type "fastboot reboot bootloader"
+On desktop: type "fastboot flashing unlock" (needs sudo on *ux)
+On phone: unlock bootloader (2x volume down key and 1x power key). The phone will reboot automatically after this.
+On phone: when the phone is completely booted, long press the power key and select "Power off"
+On phone: wait 20 seconds after the phone is off to be sure it's really off ;-)
+On phone: hold the power and volume down keys together and immediately let both go when the Fairphone logo is appearing
+On phone: if you see a menu and are not in Fastboot mode yet:
+          - use the volume keys and the power key to navigate to and enter into fastboot mode
+On desktop: when phone is in fastboot mode: enter "fastboot flashing unlock_critical"
+On phone: unlock the bootloader again using volume down and power keys (phone will reboot again after that)
+On desktop: go to https://download.lineageos.org/devices/FP4/builds
+On desktop: download dtbo.img
+On desktop: when the download is finished, copy the downloaded dtbo.img into the Platform tools directory
+On desktop: download recovery.img
+On desktop: when the download is finished, copy the downloaded recovery.img into the Platform tools directory
+On desktop: download LineageOS zip file
+On desktop: when the download is finished, copy the downloaded LineageOS zip file into the Platform tools directory
+On phone: when phone is completely booted, power it off again by long pressing the power key
+On phone: wait 20 seconds after the phone is off to be sure it's really off ;-)
+On phone: hold the power and volume down keys together and immediately let both go when the Fairphone logo is appearing
+On phone: if you see a menu and are not in Fastboot mode yet:
+          - use the volume keys and the power key to navigate to and enter into fastboot mode
+On phone: hold power and volume down keys and immediately let go when the Fairphone logo is appearing
+On desktop: type "fastboot flash dtbo dtbo.img" (needs sudo on *ux)
+On desktop: type "fastboot flash recovery recovery.img" (needs sudo on *ux)
+On desktop: type "adb devices"
+On phone: in case desktop should not show any devices:
+          - boot phone normally
+          - skip installation process as good as possible
+          - go to Settings > System
+          - if Developer Options is not there, reactivate it by tapping 7x on build number
+          - go to Settings > System > Developer Options
+          - enable USB debugging (allow for the desktop device connected via USB)
+          - power the phone off via the notification bar icon in the bottom right corner: (')
+          - immediately press and hold power and volume down key to get into fastboot mode again
+          - from there use the volume down and power keys to get into Lineage Recovery
+          - type "adb devices" on desktop again
+          - if you see your device now, you are good to go!
+          - you can skip the following four steps to get to the Lineage Recovery ;-)
+On phone: press volume down again and again until the menu headline shows "Recovery mode" and press the power key
+On phone: phone should boot into recovery and Lineage Recovery should appear
+On phone: Go to Factory reset > Format data/factory reset > Format data
+On phone: use the top left arrow to get to the recovery main menu
+On phone: Go to Apply update > Apply from ADB (the phone will wait for input from your desktop via the cable then)
+On desktop: ensure the Lineage zip file is really 100% downloaded (we do not want to flash an unfinished download!)
+On desktop: type "adb -d sideload {filename of Lineage zip file}" (do not reboot or pull the cable while flashing!)
+On desktop: relax and breathe! In my case the upload stopped at 47% and it took a about two minutes until the phone showed the menu. This is normal!
+On phone: confirm no addons by selecting "No"
+On phone: in the following menu select "Reboot system now"
+On phone: wrestle yourself through the initial setup process until the LineageOS home screen appears
+On phone: Settings > search for "power" > Power menu items > enable "Advanced restart"
+
+# how to root LineageOS 21 on FP4
+
+# the following steps have been taken from https://topjohnwu.github.io/Magisk/install.html
+
+On phone: go to https://f-droid.org/en/packages/com.machiav3lli.fdroid
+On phone: download Neo Store latest version ("Download APK" pretty far down the page)
+On phone: install, load and setup Neo Store
+On phone: search for Magisk (it is an app by topjohnwu, currently the app icon is greenish with a colorful mask on top, might take a minute to find it)
+On phone: download and install the Magisk app
+On phone: go to https://download.lineageos.org/devices/FP4 and download boot.img to your phone
+On phone: ensure that boot.img is downloaded completely (we do not want to flash an unfinished download later!)
+On phone: load Magisk app
+On phone: tap the "Install" option next to the "Magisk" menu item on the main screen
+On phone: choose "Select and Patch a File"
+On phone: select previously downloaded boot.img and tap "LET'S GO ->" in the top right corner
+On phone: from the log, note down the file name of the output file (magisk_patched-....)
+On phone: go to Settings > Connected devices > USB > set USB to be used for File Transfer
+On desktop: ensure the phone is connected via USB and get the file /sdcard/Download/magisk_patched_{name of previously generated file} to desktop via desktop file manager, e.g. Explorer, Nautilus or Finder (ADB pull might not work here, so best use desktop file manager to get file
+On desktop: copy previously downloaded boot image "magisk_patched_..." to Platform tools directory
+On phone: unlock the phone, if it is locked
+On phone: long press the power button > Restart... > Fastbootd
+On desktop: type "fastboot flash boot {filename of previously downloaded boot image file magisk_patched_...}" (needs sudo on *ux)
+On phone: select "Power off"
+On phone: switch phone on again with the power button
+On phone: press power key to continue if asked for
+On phone: unplug USB cable
+On phone: launch Magisk app, allow additional setup by clicking OK and wait five seconds for automatic reboot
+On phone: launch Neo Store
+On phone: search for, download, install, launch and setup Aurora Store (login as Anonymous)
+On phone: use Aurora Store to download and install "Root Checker" (by joeykrim)
+On phone: launch and setup Root Checker and verify that root is available on your FP4 with Lineageos 21 (grant root forever in popover)
+
+# unfortunately, it's not possible to relock your bootloader with LineageOS (which is a security breach)
+# even though booting into real fastboot mode by typing "fastboot reboot fastboot" on your desktop device (needs sudo on *ux)
+# and checking by "fastboot flashing get_unlock_ability", receiving a "1" you will not be able to relock your bootloader,
+# according to https://forum.fairphone.com/t/relock-bootloader-step-by-step/98339/8
+# and https://xdaforums.com/t/rom-13-official-lineageos-20-for-fairphone-4.4536035
